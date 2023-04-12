@@ -1,0 +1,32 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+    - 'db/**/*'
+    - 'config/**/*'
+    - node_modules/**/*
+    - 'script/**/*'
+    - 'bin/**/*'
+    - 'Gemfile'
+    - 'vendor/**/*'
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - spec/**/*
+
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*
+
+Style/Documentation:
+  Enabled: no
+
+Style/FrozenStringLiteralComment:
+  EnforcedStyle: never
+
+Style/NumericLiterals:
+  Enabled: no
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
