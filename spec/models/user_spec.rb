@@ -23,5 +23,14 @@ RSpec.describe User, type: :model do
 
       expect(subject.valid?).to be
     end
+
+    it 'validates uniqueness of email' do
+      User.create(first_name: "person_1", email: "valid@email.com", password: "pwd")
+      person2 = User.new(first_name: "person_2", email: "valid@email.com", password: "other")
+
+      expect(person2.valid?).to be false
+      expect(person2.errors.messages).not_to be_blank
+      expect(person2.errors.messages[:email]).to include('has already been taken')
+    end
   end
 end
