@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
   get 'site/index'
-  root to: 'site#index'
+  resources :users, only: %i[new create]
+  root to: 'application#index'
 end

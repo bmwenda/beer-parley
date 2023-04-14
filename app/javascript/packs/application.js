@@ -14,14 +14,8 @@
 // const images = require.context('./images', true)
 // const imagePath = (name) => images(name, true)
 
-import React from 'react';
-import { createRoot } from 'react-dom/client';
-import '../stylesheets/App.css';
-import HelloMessage from '../src/App';
+// Support component names relative to this directory:
+const componentRequireContext = require.context('src/components', true);
+const ReactRailsUJS = require('react_ujs');
 
-const container = document.getElementById('root');
-const root = createRoot(container);
-
-document.addEventListener('DOMContentLoaded', () => {
-  root.render(<HelloMessage name="World" />);
-});
+ReactRailsUJS.useContext(componentRequireContext);
