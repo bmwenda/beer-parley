@@ -14,8 +14,14 @@
 // const images = require.context('./images', true)
 // const imagePath = (name) => images(name, true)
 
-// Support component names relative to this directory:
-const componentRequireContext = require.context('src/components', true);
-const ReactRailsUJS = require('react_ujs');
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import '../stylesheets/App.css';
+import App from '../src/App';
 
-ReactRailsUJS.useContext(componentRequireContext);
+const container = document.getElementById('root');
+const root = createRoot(container);
+
+document.addEventListener('DOMContentLoaded', () => {
+  root.render(<App />);
+});
