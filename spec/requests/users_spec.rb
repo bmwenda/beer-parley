@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Users", type: :request do
-  describe "POST /users" do
+RSpec.describe 'Users', type: :request do
+  describe 'POST /users' do
     context 'when params are valid' do
       valid_user_params = {
         first_name: 'Test',
@@ -10,7 +10,7 @@ RSpec.describe "Users", type: :request do
       }
 
       it 'creates user successfully' do
-        post users_path, params: valid_user_params, headers: { "ACCEPT" => "application/json" }
+        post users_path, params: valid_user_params, headers: { 'ACCEPT' => 'application/json' }
 
         expect(response).to have_http_status(201)
       end
@@ -23,7 +23,7 @@ RSpec.describe "Users", type: :request do
       }
 
       it 'responds with 400 status code' do
-        post users_path, params: invalid_user_params, headers: { "ACCEPT" => "application/json" }
+        post users_path, params: invalid_user_params, headers: { 'ACCEPT' => 'application/json' }
 
         expect(response).to have_http_status(400)
       end

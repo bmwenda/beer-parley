@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Sessions", type: :request do
-  describe "POST /sessions" do
+RSpec.describe 'Sessions', type: :request do
+  describe 'POST /sessions' do
     let!(:user) { create(:user) }
 
     context 'when credentials are valid' do
@@ -14,7 +14,7 @@ RSpec.describe "Sessions", type: :request do
       end
 
       it 'creates user successfully' do
-        post sessions_path, params: @valid_login_params, headers: { "ACCEPT" => "application/json" }
+        post sessions_path, params: @valid_login_params, headers: { 'ACCEPT' => 'application/json' }
 
         expect(response).to have_http_status(200)
       end
@@ -29,7 +29,7 @@ RSpec.describe "Sessions", type: :request do
       end
 
       it 'responds with 401 status code' do
-        post sessions_path, params: @invalid_login_params, headers: { "ACCEPT" => "application/json" }
+        post sessions_path, params: @invalid_login_params, headers: { 'ACCEPT' => 'application/json' }
 
         expect(response).to have_http_status(401)
       end

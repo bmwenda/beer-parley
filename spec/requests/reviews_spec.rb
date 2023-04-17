@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Reviews", type: :request do
-  describe "POST /reviews" do
+RSpec.describe 'Reviews', type: :request do
+  describe 'POST /reviews' do
     let(:current_user) { create(:user) }
     let(:params) do
       {
