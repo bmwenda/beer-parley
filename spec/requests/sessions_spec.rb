@@ -28,7 +28,7 @@ RSpec.describe "Sessions", type: :request do
         }
       end
 
-      it 'responds with 400 status code' do
+      it 'responds with 401 status code' do
         post sessions_path, params: @invalid_login_params, headers: { "ACCEPT" => "application/json" }
 
         expect(response).to have_http_status(401)

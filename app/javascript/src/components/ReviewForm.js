@@ -24,7 +24,7 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
     const data = new FormData(event.currentTarget);
     const reviewData = {
       description: data.get('description'),
-      rating: data.get('rating'),
+      user_rating: data.get('rating'),
     };
 
     postReview(reviewData, beerProps)
