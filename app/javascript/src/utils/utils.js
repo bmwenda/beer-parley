@@ -35,3 +35,8 @@ export const postReview = async (review, beer) => {
 
   return response;
 };
+
+export const getCurrentUser = async () => {
+  const response = await axios.get('current_user');
+  return response;
+};

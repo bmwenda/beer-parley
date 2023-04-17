@@ -11,8 +11,16 @@ class SessionsController < ApplicationController
     end
   end
 
+  def show
+    if current_user
+      render json: { user: current_user }, status: :ok
+    else
+      render json: { error: 'User not found' }, status: :not_found
+    end
+  end
+
   def destroy
-    session[user_id] = nil
+    session[:user_id] = nil
     redirect_to root_path
   end
 

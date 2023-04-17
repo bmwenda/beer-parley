@@ -1,8 +1,17 @@
-import { useContext } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
+import { useState, useEffect } from 'react';
+import { getCurrentUser } from '../utils/utils';
 
 export default function useAuth() {
-  const authState = useContext(AuthContext);
+  const [user, setUser] = useState(null);
 
-  return authState;
+  useEffect(() => {
+    getCurrentUser()
+      .then((response) => {
+        const { user: currentUser } = response.data;
+        setUser(currentUser);
+      })
+      .catch((_err) => _err);
+  }, []);
+
+  return user;
 }

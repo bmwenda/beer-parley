@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
@@ -8,9 +9,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import AlertMessage from '../shared/AlertMessage';
 import { postReview } from '../utils/utils';
 
 export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
+  const [alert, setAlert] = useState(null);
+
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
@@ -24,11 +28,11 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
     };
 
     postReview(reviewData, beerProps)
-      .then((response) => {
-        console.log(response.status);
+      .then(() => {
+        setAlert({ type: 'success', message: 'Review sent' });
       })
       .catch((err) => {
-        console.log(err.response.data);
+        setAlert({ type: 'error', message: err.response.data.error });
       });
 
     setDialogOpen(false);
@@ -36,6 +40,7 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
 
   return (
     <div>
+      { alert && <AlertMessage type={alert.type} message={alert.message} /> }
       <Dialog open={dialogOpen} onClose={handleDialogClose}>
         <DialogTitle>Your Review</DialogTitle>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
@@ -83,6 +88,5 @@ ReviewForm.defaultProps = {
 
 ReviewForm.propTypes = {
   dialogOpen: PropTypes.bool,
-  // beerProps: PropTypes.shape,
   setDialogOpen: PropTypes.func.isRequired,
 };

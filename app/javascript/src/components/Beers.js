@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
-import { useNavigate } from 'react-router-dom';
 import AlertMessage from '../shared/AlertMessage';
 import Layout from '../shared/Layout';
 import BeerItem from './BeerItem';
@@ -26,8 +22,6 @@ export default function Beers() {
         setAlert({ type: 'error', message: err.response.statusText });
       });
   }, []);
-
-  const navigate = useNavigate();
 
   return (
     <Layout>

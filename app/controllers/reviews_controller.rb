@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   def create
+    puts("current_user: #{current_user}")
   end
 
   private
