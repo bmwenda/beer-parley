@@ -21,6 +21,7 @@ export default function LogIn() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log(event.currentTarget)
     const data = new FormData(event.currentTarget);
     const loginParams = {
       email: data.get('email'),
@@ -73,7 +74,7 @@ export default function LogIn() {
               label="Password"
               type="password"
               id="password"
-              autoComplete="current-password"
+              autoComplete="password"
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

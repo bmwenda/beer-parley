@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
@@ -7,16 +7,31 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Link from '@mui/material/Link';
 import { useNavigate } from 'react-router-dom';
+import AlertMessage from '../shared/AlertMessage';
 import Layout from '../shared/Layout';
 import BeerItem from './BeerItem';
-
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { fetchBeers } from '../utils/utils';
 
 export default function Beers() {
+  const [beers, setBeers] = useState([]);
+  const [alert, setAlert] = useState(null);
+
+  useEffect(() => {
+    fetchBeers()
+      .then((response) => {
+        const { data } = response;
+        setBeers(data);
+      })
+      .catch((err) => {
+        setAlert({ type: 'error', message: err.response.statusText });
+      });
+  }, []);
+
   const navigate = useNavigate();
 
   return (
     <Layout>
+      { alert && <AlertMessage type={alert.type} message={alert.message} /> }
       <Box
         sx={{
           bgcolor: 'background.paper',
@@ -32,29 +47,18 @@ export default function Beers() {
             color="text.primary"
             gutterBottom
           >
-            Album layout
+            Beer Catalog
           </Typography>
           <Typography variant="h5" align="center" color="text.secondary" paragraph>
-            Something short and leading about the collection below—its contents,
-            the creator, etc. Make it short and sweet, but not too short so folks
-            don&apos;t simply skip over it entirely.
+            Review your favourite beers!
           </Typography>
-          <Stack
-            sx={{ pt: 4 }}
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-          >
-            <Button variant="contained" >Main call to action</Button>
-            <Button variant="outlined">Secondary action</Button>
-          </Stack>
         </Container>
       </Box>
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container maxWidth="md">
         <Grid container spacing={4}>
-          {cards.map((card) => (
-            <Grid item key={card} xs={12} sm={6} md={4}>
-              <BeerItem></BeerItem>
+          {beers && beers.map((item) => (
+            <Grid item key={item.id} xs={12} sm={6} md={4}>
+              <BeerItem props={item} />
             </Grid>
           ))}
         </Grid>

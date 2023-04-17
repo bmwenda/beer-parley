@@ -6,9 +6,8 @@ import Beers from './components/Beers';
 import LogIn from './components/Login';
 import SignUp from './components/Signup';
 
-const theme = createTheme();
-
 export default function App() {
+  const theme = createTheme();
   const [user, setUser] = useState(null);
   const authState = useMemo(() => ({
     user, setUser,
