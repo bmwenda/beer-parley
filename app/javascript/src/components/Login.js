@@ -1,6 +1,5 @@
-import * as React from 'react';
-import axios from 'axios';
-import { redirect } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,22 +10,15 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme();
-
-const postLogIn = async (params) => {
-  const response = await axios.post('/sessions', {
-    ...params,
-  }, {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  return response;
-};
+import { AuthContext } from '../contexts/AuthContext';
+import AlertMessage from '../shared/AlertMessage';
+import { login } from '../utils/utils';
 
 export default function LogIn() {
+  const { user, setUser } = useContext(AuthContext);
+  const [alert, setAlert] = useState(null);
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -35,16 +27,20 @@ export default function LogIn() {
       password: data.get('password'),
     };
 
-    postLogIn(loginParams)
+    login(loginParams)
       .then((response) => {
-        console.log(response.status);
-        return redirect('/signup');
+        setUser(response.data.user);
+        setAlert({ type: 'success', message: 'Logged in successfully' });
+        return navigate('/');
       })
-      .catch((_err) => null);
+      .catch((err) => {
+        setAlert({ type: 'error', message: err.response.data.error });
+      });
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      { alert && <AlertMessage type={alert.type} message={alert.message} /> }
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -106,6 +102,6 @@ export default function LogIn() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </>
   );
 }

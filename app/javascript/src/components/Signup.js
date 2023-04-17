@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -8,25 +9,38 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme();
+import AlertMessage from '../shared/AlertMessage';
+import { signUp } from '../utils/utils';
 
 export default function SignUp() {
+  const [alert, setAlert] = useState(null);
+  const navigate = useNavigate();
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get('first-name'),
-      lastName: data.get('last-name'),
-      email: data.get('email'),
-      password: data.get('password'),
-      passwordConfirmation: data.get('password-confirmation'),
-    });
+    const formData = new FormData(event.currentTarget);
+    const userParams = {
+      first_name: formData.get('first-name'),
+      last_name: formData.get('last-name'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+      password_confirmation: formData.get('password-confirmation'),
+    };
+
+    signUp(userParams)
+      .then((response) => {
+        const { data } = response;
+        setAlert({ type: 'success', message: data.message });
+        return navigate('/login');
+      })
+      .catch((err) => {
+        setAlert({ type: 'error', message: err.response.data.error });
+      });
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      { alert && <AlertMessage type={alert.type} message={alert.message} /> }
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -109,6 +123,6 @@ export default function SignUp() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
+    </>
   );
 }
