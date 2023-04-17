@@ -20,8 +20,9 @@ RSpec.describe User, type: :model do
     it 'validates valid email format' do
       subject.email = 'valid@email.com'
       subject.first_name = 'Name'
+      subject.password = 'pswd'
 
-      expect(subject.valid?).to be
+      expect(subject.valid?).to be true
     end
 
     it 'validates uniqueness of email' do
