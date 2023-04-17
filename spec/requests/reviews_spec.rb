@@ -56,4 +56,16 @@ RSpec.describe "Reviews", type: :request do
       end
     end
   end
+
+  describe 'GET /reviews' do
+    before do
+      create(:review)
+    end
+
+    it 'returns reviews' do
+      get reviews_path
+
+      expect(response).to have_http_status(200)
+    end
+  end
 end

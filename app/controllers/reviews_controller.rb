@@ -1,5 +1,11 @@
 class ReviewsController < ApplicationController
-  before_action :authorize
+  before_action :authorize, only: %i[create]
+
+  def index
+    @reviews = Review.all
+
+    render json: { reviews: @reviews }, status: :ok
+  end
 
   def create
     @review = Review.add_review(
