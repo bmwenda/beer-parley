@@ -9,14 +9,15 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { parseDate } from '../utils/utils';
 
 export default function ReviewItem({ props }) {
   const { beer, user } = props;
+
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardHeader
@@ -45,9 +46,7 @@ export default function ReviewItem({ props }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
+        <Rating name="read-only" value={props.rating} readOnly />
       </CardActions>
     </Card>
   );

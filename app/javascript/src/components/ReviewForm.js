@@ -9,11 +9,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import Rating from '@mui/material/Rating';
 import AlertMessage from '../shared/AlertMessage';
 import { postReview } from '../utils/utils';
 
 export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
   const [alert, setAlert] = useState(null);
+  const [rating, setRating] = useState(0);
 
   const handleDialogClose = () => {
     setDialogOpen(false);
@@ -24,7 +26,7 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
     const data = new FormData(event.currentTarget);
     const reviewData = {
       description: data.get('description'),
-      user_rating: data.get('rating'),
+      user_rating: rating,
     };
 
     postReview(reviewData, beerProps)
@@ -37,6 +39,8 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
 
     setDialogOpen(false);
   };
+
+  console.log('rating: ', rating)
 
   return (
     <div>
@@ -60,16 +64,12 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
               type="text"
               variant="standard"
             />
-            <TextField
-              autoFocus
-              required
-              fullWidth
-              name="rating"
-              margin="normal"
-              id="rating"
-              label="Rating"
-              type="number"
-              variant="standard"
+            <Rating
+              name="simple-controlled"
+              value={rating}
+              onChange={(event, newValue) => {
+                setRating(newValue);
+              }}
             />
           </DialogContent>
           <DialogActions>
