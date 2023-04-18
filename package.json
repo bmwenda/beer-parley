@@ -3,7 +3,8 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "build": "./bin/webpacker-dev-server"
+    "build": "./bin/webpacker-dev-server",
+    "lint": "yarn run eslint app/javascript"
   },
   "dependencies": {
     "@babel/core": "7",
