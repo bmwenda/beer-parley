@@ -40,8 +40,6 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
     setDialogOpen(false);
   };
 
-  console.log('rating: ', rating)
-
   return (
     <div>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }

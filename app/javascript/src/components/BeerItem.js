@@ -1,7 +1,8 @@
 /* eslint-disable react/require-default-props */
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -13,6 +14,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import ReviewForm from './ReviewForm';
+import AuthContext from '../contexts/AuthContext';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -28,6 +30,8 @@ const ExpandMore = styled((props) => {
 
 // eslint-disable-next-line react/prop-types
 export default function BeerItem({ props }) {
+  const currentUser = useContext(AuthContext);
+  const navigate = useNavigate();
   const [expanded, setExpanded] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const {
@@ -42,7 +46,11 @@ export default function BeerItem({ props }) {
   };
 
   const handleDialogOpen = () => {
-    setDialogOpen(true);
+    if (currentUser) {
+      setDialogOpen(true);
+    } else {
+      navigate('/login');
+    }
   };
 
   return (

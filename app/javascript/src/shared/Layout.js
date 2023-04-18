@@ -4,13 +4,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import Typography from '@mui/material/Typography';
+import Link from '@mui/material/Link';
 
 export default function Layout({ children }) {
   return (
     <>
       <AppBar position="relative">
         <Toolbar>
-          <SportsBarIcon sx={{ mr: 2 }} />
+          <Link href="/"><SportsBarIcon sx={{ mr: 2, color: 'white' }} /></Link>
           <Typography variant="h6" color="inherit" noWrap>
             Beers
           </Typography>

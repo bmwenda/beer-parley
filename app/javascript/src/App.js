@@ -10,12 +10,12 @@ import Reviews from './components/Reviews';
 
 export default function App() {
   const theme = createTheme();
-  const user = useAuth();
+  const currentUser = useAuth();
 
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <AuthContext.Provider value={user}>
+        <AuthContext.Provider value={currentUser}>
           <Routes>
             <Route path="/login" exact element={<LogIn />} />
             <Route path="/signup" exact element={<SignUp />} />
