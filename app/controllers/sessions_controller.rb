@@ -5,7 +5,10 @@ class SessionsController < ApplicationController
     @user = User.find_by(email: session_params[:email])
     if @user&.authenticate(session_params[:password])
       session[:user_id] = @user.id
-      render json: { user: @user }, status: :ok
+      respond_to do |format|
+        format.html
+        format.json { render :create, status: :ok }
+      end
     else
       render json: { error: 'Username or password is invalid' }, status: :unauthorized
     end
@@ -13,7 +16,11 @@ class SessionsController < ApplicationController
 
   def show
     if current_user
-      render json: { user: current_user }, status: :ok
+      @user = current_user
+      respond_to do |format|
+        format.html
+        format.json { render :show, status: :ok }
+      end
     else
       render json: { error: 'User not found' }, status: :not_found
     end

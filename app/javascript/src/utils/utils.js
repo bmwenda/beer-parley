@@ -1,29 +1,13 @@
 import axios from 'axios';
+import { fetchItems, postItems } from './api';
 
 const HEADERS = { 'Content-Type': 'application/json' };
 
-export const login = async (params) => {
-  const response = await axios.post('/sessions', {
-    ...params,
-  }, {
-    headers: HEADERS,
-  });
-  return response;
-};
+export const login = async (params) => postItems('/sessions', params);
 
-export const signUp = async (params) => {
-  const response = await axios.post('/users', {
-    ...params,
-  }, {
-    headers: HEADERS,
-  });
-  return response;
-};
+export const signUp = async (params) => postItems('/users', params);
 
-export const fetchBeers = async () => {
-  const response = await axios.get('https://api.punkapi.com/v2/beers/');
-  return response;
-};
+export const fetchBeers = async () => fetchItems('https://api.punkapi.com/v2/beers/');
 
 export const postReview = async (review, beer) => {
   const response = await axios.post('/reviews', {
@@ -36,7 +20,16 @@ export const postReview = async (review, beer) => {
   return response;
 };
 
-export const getCurrentUser = async () => {
-  const response = await axios.get('current_user');
-  return response;
+export const getCurrentUser = async () => fetchItems('/current_user');
+
+export const getReviews = async () => fetchItems('/reviews');
+
+export const parseDate = (timestamp) => {
+  if (!timestamp) return '';
+  const dateObj = new Date(timestamp);
+  const day = dateObj.getDate();
+  const month = dateObj.toLocaleString('default', { month: 'long' });
+  const year = dateObj.getFullYear();
+
+  return `${month} ${day}, ${year}`;
 };

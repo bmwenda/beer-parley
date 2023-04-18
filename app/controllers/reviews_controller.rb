@@ -4,7 +4,10 @@ class ReviewsController < ApplicationController
   def index
     @reviews = Review.all
 
-    render json: { reviews: @reviews }, status: :ok
+    respond_to do |format|
+      format.html
+      format.json { render :index, status: :ok }
+    end
   end
 
   def create
