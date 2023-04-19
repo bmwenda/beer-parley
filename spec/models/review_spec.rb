@@ -26,7 +26,7 @@ RSpec.describe Review, type: :model do
     context 'when params are valid' do
       it 'adds a review successfully' do
         review = Review.add_review(
-          user: user,
+          user_id: user.id,
           review_attributes: review_attributes,
           beer_attributes: beer_attributes
         )
@@ -39,7 +39,7 @@ RSpec.describe Review, type: :model do
     context 'when params are invalid' do
       it 'returns a falsey value' do
         review = Review.add_review(
-          user: user,
+          user_id: user.id,
           review_attributes: review_attributes.delete(:description),
           beer_attributes: beer_attributes
         )
