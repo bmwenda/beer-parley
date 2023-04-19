@@ -8,6 +8,9 @@ services:
     environment:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
+
+  redis:
+    image: redis
   webpack:
     build: .
     command: bash -c "yarn && yarn build"
@@ -27,3 +30,12 @@ services:
     depends_on:
       - db
       - webpack
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - redis
