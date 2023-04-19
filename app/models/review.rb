@@ -1,7 +1,7 @@
 class Review < ApplicationRecord
   belongs_to :user
   belongs_to :beer
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   validates :description, :user_rating, presence: true
 

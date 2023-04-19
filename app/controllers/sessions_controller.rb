@@ -1,4 +1,16 @@
 class SessionsController < ApplicationController
+  def show
+    if current_user
+      @user = current_user
+      respond_to do |format|
+        format.html
+        format.json { render :show, status: :ok }
+      end
+    else
+      render json: { error: 'User not found' }, status: :not_found
+    end
+  end
+
   def new; end
 
   def create
@@ -11,18 +23,6 @@ class SessionsController < ApplicationController
       end
     else
       render json: { error: 'Username or password is invalid' }, status: :unauthorized
-    end
-  end
-
-  def show
-    if current_user
-      @user = current_user
-      respond_to do |format|
-        format.html
-        format.json { render :show, status: :ok }
-      end
-    else
-      render json: { error: 'User not found' }, status: :not_found
     end
   end
 

@@ -1,6 +1,7 @@
 require: rubocop-rails
 
 AllCops:
+  NewCops: enable
   SuggestExtensions: false
   Exclude:
     - 'db/**/*'
@@ -31,3 +32,6 @@ Style/NumericLiterals:
 
 Style/StringLiterals:
   EnforcedStyle: single_quotes
+
+Rails/FilePath:
+  EnforcedStyle: arguments

@@ -5,8 +5,8 @@ class User < ApplicationRecord
   has_secure_password :recovery_password, validations: false
 
   has_one :beer_profile, dependent: :destroy
-  has_many :comments
-  has_many :reviews
+  has_many :comments, dependent: :destroy
+  has_many :reviews, dependent: :destroy
   has_many :similarity_scores, dependent: :destroy
   has_many :beers, through: :reviews, dependent: :destroy
 
