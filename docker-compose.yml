@@ -11,6 +11,8 @@ services:
 
   redis:
     image: redis
+    environment:
+      REDIS_URL: 'redis://redis:6379/1'
   webpack:
     build: .
     command: bash -c "yarn && yarn build"
@@ -37,5 +39,4 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
       - redis
