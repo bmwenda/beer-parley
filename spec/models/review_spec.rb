@@ -34,6 +34,16 @@ RSpec.describe Review, type: :model do
         expect(review).to be_truthy
         expect(review.description).to eq(review_attributes[:description])
       end
+
+      it 'triggers recommendations job' do
+        expect(GenerateRecommendationsJob).to receive(:perform_later)
+
+        Review.add_review(
+          user_id: user.id,
+          review_attributes: review_attributes,
+          beer_attributes: beer_attributes
+        )
+      end
     end
 
     context 'when params are invalid' do

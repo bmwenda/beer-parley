@@ -5,6 +5,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many(:beers).class_name('Beer') }
     it { is_expected.to have_many(:reviews).class_name('Review') }
     it { is_expected.to have_many(:comments).class_name('Comment') }
+    it { is_expected.to have_one(:beer_profile).class_name('BeerProfile') }
   end
 
   describe 'validations' do
