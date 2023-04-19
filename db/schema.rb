@@ -10,10 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_13_210710) do
+ActiveRecord::Schema.define(version: 2023_04_18_225607) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "beer_profiles", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "rating_score", default: 0
+    t.integer "price_score", default: 0
+    t.integer "abv_score", default: 0
+    t.integer "ibu_score", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_beer_profiles_on_user_id"
+  end
 
   create_table "beers", force: :cascade do |t|
     t.string "name"
@@ -27,6 +38,10 @@ ActiveRecord::Schema.define(version: 2023_04_13_210710) do
     t.integer "volume"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "rating_score", default: 0
+    t.integer "price_score", default: 0
+    t.integer "abv_score", default: 0
+    t.integer "ibu_score", default: 0
   end
 
   create_table "comments", force: :cascade do |t|
@@ -52,6 +67,16 @@ ActiveRecord::Schema.define(version: 2023_04_13_210710) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "similarity_scores", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "beer_id", null: false
+    t.integer "score", default: 0
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["beer_id"], name: "index_similarity_scores_on_beer_id"
+    t.index ["user_id"], name: "index_similarity_scores_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name", null: false
     t.string "last_name"
@@ -64,8 +89,11 @@ ActiveRecord::Schema.define(version: 2023_04_13_210710) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "beer_profiles", "users"
   add_foreign_key "comments", "reviews"
   add_foreign_key "comments", "users"
   add_foreign_key "reviews", "beers"
   add_foreign_key "reviews", "users"
+  add_foreign_key "similarity_scores", "beers"
+  add_foreign_key "similarity_scores", "users"
 end

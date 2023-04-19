@@ -12,7 +12,7 @@ class ReviewsController < ApplicationController
 
   def create
     @review = Review.add_review(
-      user_id: current_user.id,
+      user: current_user,
       review_attributes: review_params[:review],
       beer_attributes: review_params[:beer]
     )

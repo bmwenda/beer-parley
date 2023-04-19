@@ -30,6 +30,9 @@ gem 'react-rails', '= 2.6'
 # Javascript integration with rails
 gem 'shakapacker', '= 6.6'
 
+# Handle background jobs with sidekiq
+gem "sidekiq", "~> 7.0"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
