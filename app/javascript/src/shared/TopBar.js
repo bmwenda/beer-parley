@@ -121,6 +121,9 @@ export default function TopBar() {
               <Link href="/community-reviews" underline="none" sx={{ color: 'white' }}>
                 Reviews
               </Link>
+              <Link href="/recommendations" underline="none" sx={{ color: 'white' }}>
+                Recommendations
+              </Link>
             </Button>
           </Box>
 
@@ -152,7 +155,7 @@ export default function TopBar() {
                 <Typography textAlign="center">Profile</Typography>
               </MenuItem>
               <MenuItem onClick={handleCloseUserMenu}>
-                <Link href="/login" color="secondary" textAlign="center" underline="none">Logout</Link>
+                <Link href="/login" color="text.secondary" textAlign="center" underline="none">Logout</Link>
               </MenuItem>
             </Menu>
           </Box>

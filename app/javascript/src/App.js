@@ -7,6 +7,7 @@ import LogIn from './components/Login';
 import SignUp from './components/Signup';
 import useAuth from './hooks/useAuth';
 import Reviews from './components/Reviews';
+import Recommendations from './components/Recommendations';
 
 export default function App() {
   const theme = createTheme();
@@ -21,6 +22,7 @@ export default function App() {
             <Route path="/signup" exact element={<SignUp />} />
             <Route path="/beers" exact element={<Beers />} />
             <Route path="/community-reviews" exact element={<Reviews />} />
+            <Route path="/recommendations" exact element={<Recommendations />} />
             <Route path="/" exact element={<Beers />} />
           </Routes>
         </AuthContext.Provider>

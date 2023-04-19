@@ -33,3 +33,5 @@ export const parseDate = (timestamp) => {
 
   return `${month} ${day}, ${year}`;
 };
+
+export const getRecommendations = async () => fetchItems('/recommendations');
