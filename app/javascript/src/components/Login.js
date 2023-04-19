@@ -38,7 +38,7 @@ export default function LogIn() {
   return (
     <>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" data-testid="login-page">
         <CssBaseline />
         <Box
           sx={{

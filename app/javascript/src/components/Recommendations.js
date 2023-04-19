@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import AlertMessage from '../shared/AlertMessage';
 import Layout from '../shared/Layout';
 import BeerItem from './BeerItem';
@@ -19,27 +18,28 @@ export default function Recommendations() {
         setRecommendations(data);
       })
       .catch((err) => {
-        setAlert({ type: 'error', message: err.response.statusText });
+        setAlert({ type: 'error', message: (err.response?.statusText || 'An error occurred') });
       });
   }, []);
 
   return (
     <Layout>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }
-      {recommendations.length < 1 && (
-      <Typography variant="body1" align="center" color="text.secondary" paragraph>
-        Nothing to see yet. Rate a few beers to get recommendations
-      </Typography>
-      )}
-      <Header title="Recommendations" subTitle="We heard you love these type of beers. There's more you could like!" />
-      <Container maxWidth="md">
-        <Grid container spacing={4}>
-          {recommendations && recommendations.map((item) => (
-            <Grid item key={item.id} xs={12} sm={6} md={4}>
-              <BeerItem props={item} />
+      <Container maxWidth="md" data-testid="recommendations-page">
+        {recommendations.length < 1 ? (
+          <Header title="Nothing to see yet" subTitle="Rate a few beers to get recommendations!" />
+        ) : (
+          <>
+            <Header title="Recommendations" subTitle="We heard you love these type of beers. There's more you could like!" />
+            <Grid container spacing={4}>
+              {recommendations && recommendations.map((item) => (
+                <Grid item key={item.id} xs={12} sm={6} md={4}>
+                  <BeerItem props={item} />
+                </Grid>
+              ))}
             </Grid>
-          ))}
-        </Grid>
+          </>
+        )}
       </Container>
     </Layout>
   );

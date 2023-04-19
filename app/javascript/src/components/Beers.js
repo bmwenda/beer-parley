@@ -26,7 +26,7 @@ export default function Beers() {
     <Layout>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }
       <Header title="Beer Catalog" subTitle="Review your favourite beers!" />
-      <Container maxWidth="md">
+      <Container maxWidth="md" data-testid="beers-page">
         <Grid container spacing={4}>
           {beers && beers.map((item) => (
             <Grid item key={item.id} xs={12} sm={6} md={4}>

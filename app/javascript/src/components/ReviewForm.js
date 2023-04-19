@@ -43,7 +43,7 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
   return (
     <div>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }
-      <Dialog open={dialogOpen} onClose={handleDialogClose}>
+      <Dialog open={dialogOpen} onClose={handleDialogClose} data-testid="review-form">
         <DialogTitle>Your Review</DialogTitle>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <DialogContent>
@@ -72,7 +72,7 @@ export default function ReviewForm({ dialogOpen, setDialogOpen, beerProps }) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleDialogClose}>Cancel</Button>
-            <Button type="submit">Submit</Button>
+            <Button type="submit" data-testid="submit-review-btn">Submit</Button>
           </DialogActions>
         </Box>
       </Dialog>

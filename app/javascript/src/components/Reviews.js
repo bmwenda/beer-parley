@@ -26,7 +26,7 @@ export default function Reviews() {
     <Layout>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }
       <Header title="Reviews" subTitle="People are liking their beers! Or not" />
-      <Container maxWidth="md">
+      <Container maxWidth="md" data-testid="reviews-page">
         <Grid container spacing={4}>
           {reviews && reviews.map((item) => (
             <Grid item key={item.id} xs={12} sm={6} md={4}>

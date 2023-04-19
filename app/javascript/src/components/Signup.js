@@ -41,7 +41,7 @@ export default function SignUp() {
   return (
     <>
       { alert && <AlertMessage type={alert.type} message={alert.message} /> }
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" data-testid="signup-page">
         <CssBaseline />
         <Box
           sx={{

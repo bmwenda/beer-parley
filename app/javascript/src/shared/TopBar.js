@@ -38,7 +38,7 @@ export default function TopBar() {
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
+        <Toolbar disableGutters data-testid="toolbar">
           <SportsBarIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
@@ -118,47 +118,52 @@ export default function TopBar() {
               onClick={handleCloseNavMenu}
               sx={{ my: 2, color: 'white', display: 'block' }}
             >
-              <Link href="/community-reviews" underline="none" sx={{ color: 'white' }}>
+              <Link href="/community-reviews" underline="none" sx={{ color: 'white' }} data-testid="reviews-link">
                 Reviews
               </Link>
-              <Link href="/recommendations" underline="none" sx={{ color: 'white' }}>
+              {'    '}
+              <Link href="/recommendations" underline="none" sx={{ color: 'white' }} data-testid="recommendations-link">
                 Recommendations
               </Link>
             </Button>
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt={currentUser?.first_name}>
-                  {currentUser?.first_name.charAt(0)}
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Typography textAlign="center">Profile</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseUserMenu}>
-                <Link href="/login" color="text.secondary" textAlign="center" underline="none">Logout</Link>
-              </MenuItem>
-            </Menu>
-          </Box>
+          {currentUser ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt={currentUser?.first_name}>
+                    {currentUser?.first_name.charAt(0)}
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link href="/login" color="text.secondary" textAlign="center" underline="none">Logout</Link>
+                </MenuItem>
+              </Menu>
+            </Box>
+          ) : (
+            <Link href="/login" underline="none" sx={{ color: 'white' }}>Login</Link>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

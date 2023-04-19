@@ -82,7 +82,7 @@ export default function BeerItem({ props }) {
         <CardActions>
           <Grid container>
             <Grid item sm={6}>
-              <Button size="small" onClick={handleDialogOpen}>Review</Button>
+              <Button size="small" onClick={handleDialogOpen} data-testid="review-form-btn">Review</Button>
             </Grid>
             <Grid item sm={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <ExpandMore
