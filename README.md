@@ -32,8 +32,8 @@ Create the development database, run migrations and add seed data with the follo
 
 ```
     docker-compose run --rm web rails db:create
-    docker-compose run --rm web rails rails db:migrate
-    docker-compose run --rm web rails rails db:seed
+    docker-compose run --rm web rails db:migrate
+    docker-compose run --rm web rails db:seed
 ```
 
 ### Start server
