@@ -2,7 +2,7 @@ class ReviewsController < ApplicationController
   before_action :authorize, only: %i[create]
 
   def index
-    @reviews = Review.all
+    @reviews = Review.page(params[:page])
 
     respond_to do |format|
       format.html
