@@ -22,7 +22,7 @@ export const postReview = async (review, beer) => {
 
 export const getCurrentUser = async () => fetchItems('/current_user');
 
-export const getReviews = async () => fetchItems('/reviews');
+export const getReviews = async (queryParams) => fetchItems('/reviews', queryParams);
 
 export const parseDate = (timestamp) => {
   if (!timestamp) return '';

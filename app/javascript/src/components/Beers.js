@@ -18,7 +18,7 @@ export default function Beers() {
         setBeers(data);
       })
       .catch((err) => {
-        setAlert({ type: 'error', message: err.response.statusText });
+        setAlert({ type: 'error', message: err?.response?.statusText || 'An error occurred' });
       });
   }, []);
 

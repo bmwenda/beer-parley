@@ -5,6 +5,8 @@ class Review < ApplicationRecord
 
   validates :description, :user_rating, presence: true
 
+  paginates_per 9
+
   def self.add_review(user_id:, review_attributes:, beer_attributes:)
     ActiveRecord::Base.transaction do
       beer = Beer.find_or_create_by!(beer_attributes)
