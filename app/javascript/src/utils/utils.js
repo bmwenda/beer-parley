@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { fetchItems, postItems } from './api';
+import { fetchItems, fetchItemsInfinite, postItems } from './api';
 
 const HEADERS = { 'Content-Type': 'application/json' };
 
@@ -22,7 +22,10 @@ export const postReview = async (review, beer) => {
 
 export const getCurrentUser = async () => fetchItems('/current_user');
 
-export const getReviews = async (queryParams) => fetchItems('/reviews', queryParams);
+// eslint-disable-next-line arrow-body-style
+export const getReviews = async ({ queryParams = {}, pageParam = 1 }) => {
+  return fetchItemsInfinite({ pageParam, path: '/reviews', params: queryParams });
+};
 
 export const parseDate = (timestamp) => {
   if (!timestamp) return '';
