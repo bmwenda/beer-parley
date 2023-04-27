@@ -7,7 +7,7 @@ export const login = async (params) => postItems('/sessions', params);
 
 export const signUp = async (params) => postItems('/users', params);
 
-export const fetchBeers = async () => fetchItems('https://api.punkapi.com/v2/beers/');
+export const fetchBeers = async (queryParams) => fetchItems('https://api.punkapi.com/v2/beers', queryParams);
 
 export const postReview = async (review, beer) => {
   const response = await axios.post('/reviews', {
