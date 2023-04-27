@@ -31,7 +31,7 @@ export default function LogIn() {
         return navigate('/');
       })
       .catch((err) => {
-        setAlert({ type: 'error', message: err.response.data.error });
+        setAlert({ type: 'error', message: err?.response?.data?.error || 'An error occurred' });
       });
   };
 
