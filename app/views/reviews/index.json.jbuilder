@@ -2,7 +2,7 @@ json.array! @reviews do |review|
   json.id review.id
   json.description review.description
   json.rating review.user_rating
-  json.likes review.likes
+  json.likes review.review_likes.size
   json.created_at review.created_at
 
   json.user do

@@ -33,5 +33,11 @@ Style/NumericLiterals:
 Style/StringLiterals:
   EnforcedStyle: single_quotes
 
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
 Rails/FilePath:
   EnforcedStyle: arguments

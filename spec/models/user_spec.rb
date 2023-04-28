@@ -2,10 +2,11 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
   describe 'associations' do
+    it { is_expected.to have_one(:beer_profile).class_name('BeerProfile') }
     it { is_expected.to have_many(:beers).class_name('Beer') }
     it { is_expected.to have_many(:reviews).class_name('Review') }
     it { is_expected.to have_many(:comments).class_name('Comment') }
-    it { is_expected.to have_one(:beer_profile).class_name('BeerProfile') }
+    it { is_expected.to have_many(:review_likes).class_name('ReviewLike') }
   end
 
   describe 'validations' do

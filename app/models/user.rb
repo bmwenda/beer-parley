@@ -9,6 +9,7 @@ class User < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :similarity_scores, dependent: :destroy
   has_many :beers, through: :reviews, dependent: :destroy
+  has_many :review_likes, through: :reviews, dependent: :destroy
 
   validates :first_name, :email, presence: true
   validates :email, format: /\A[^@\s]+@([^@\s]+\.)+[^@\s]+\z/, uniqueness: true

@@ -5,6 +5,7 @@ RSpec.describe Review, type: :model do
     it { is_expected.to belong_to(:user).class_name('User') }
     it { is_expected.to belong_to(:beer).class_name('Beer') }
     it { is_expected.to have_many(:comments).class_name('Comment') }
+    it { is_expected.to have_many(:review_likes).class_name('ReviewLike') }
   end
 
   describe 'validations' do

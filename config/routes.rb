@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :users, only: %i[show create]
   resources :sessions, only: %i[show create]
   resources :reviews, only: %i[index create]
+  resources :review_likes, only: %i[create destroy]
 
   root to: 'beers#index'
   get '*path', to: 'beers#index'

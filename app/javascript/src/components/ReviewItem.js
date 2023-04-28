@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,6 +10,8 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
@@ -17,6 +20,10 @@ import { parseDate } from '../utils/utils';
 
 export default function ReviewItem({ props }) {
   const { beer, user } = props;
+
+  const handleLikeClick = (event) => {
+    console.log('handle like')
+  };
 
   return (
     <Card sx={{ maxWidth: 345 }}>
@@ -46,7 +53,16 @@ export default function ReviewItem({ props }) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Rating name="read-only" value={props.rating} readOnly />
+        <Grid container>
+          <Grid item xs={10}>
+            <Rating name="read-only" value={props.rating} readOnly />
+          </Grid>
+          <Grid item xs={2}>
+            <IconButton size="small" sx={{ pt: 0 }} onClick={handleLikeClick}>
+              <FavoriteIcon sx={{ color: red[500] }} />
+            </IconButton>
+          </Grid>
+        </Grid>
       </CardActions>
     </Card>
   );
