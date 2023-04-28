@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import Fab from '@mui/material/Fab';
 import AlertMessage from '../shared/AlertMessage';
 import Layout from '../shared/Layout';
@@ -27,6 +28,10 @@ export default function Reviews() {
     },
   });
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  };
+
   if (status === 'loading') {
     return <Progress />;
   }
@@ -51,7 +56,7 @@ export default function Reviews() {
             ))}
           </Grid>
           <Grid container sx={{ mt: 3 }}>
-            <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               <Fab
                 variant="extended"
                 onClick={() => fetchNextPage()}
@@ -59,6 +64,16 @@ export default function Reviews() {
               >
                 {isFetchingNextPage && 'Loading...'}
                 {hasNextPage ? 'Load More' : 'Nothing more to load'}
+              </Fab>
+            </Grid>
+            <Grid item xs={6} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              <Fab
+                size="small"
+                color="primary"
+                aria-label="scroll back to top"
+                onClick={scrollToTop}
+              >
+                <KeyboardArrowUp />
               </Fab>
             </Grid>
           </Grid>
