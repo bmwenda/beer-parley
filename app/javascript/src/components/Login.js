@@ -28,7 +28,8 @@ export default function LogIn() {
     login(loginParams)
       .then(() => {
         setAlert({ type: 'success', message: 'Logged in successfully' });
-        return navigate('/');
+        navigate('/');
+        navigate(0);
       })
       .catch((err) => {
         setAlert({ type: 'error', message: err?.response?.data?.error || 'An error occurred' });
@@ -85,7 +86,7 @@ export default function LogIn() {
               Sign In
             </Button>
             <Grid container>
-              <Grid item>
+              <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Link href="/signup" variant="body2">
                   Don&apos;t have an account? Sign Up
                 </Link>

@@ -28,12 +28,15 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_path
+    respond_to do |format|
+      format.html {  redirect_to root_path }
+      format.json { render json: { message: 'Logged out' }, status: :no_content }
+    end
   end
 
   private
 
   def session_params
-    params.permit(:email, :password)
+    params.require(:session).permit(:email, :password)
   end
 end

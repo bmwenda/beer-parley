@@ -5,6 +5,8 @@ const HEADERS = { 'Content-Type': 'application/json' };
 
 export const login = async (params) => postItems('/sessions', params);
 
+export const logout = async () => fetchItems('/logout');
+
 export const signUp = async (params) => postItems('/users', params);
 
 export const fetchBeers = async (queryParams) => fetchItems('https://api.punkapi.com/v2/beers', queryParams);

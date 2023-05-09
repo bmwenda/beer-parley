@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,11 +15,15 @@ import MenuItem from '@mui/material/MenuItem';
 import Link from '@mui/material/Link';
 import SportsBarIcon from '@mui/icons-material/SportsBar';
 import AuthContext from '../contexts/AuthContext';
+import AlertMessage from './AlertMessage';
+import { logout } from '../utils/utils';
 
 export default function TopBar() {
+  const navigate = useNavigate();
   const currentUser = useContext(AuthContext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [alert, setAlert] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,6 +38,18 @@ export default function TopBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogoutMenu = () => {
+    setAnchorElUser(null);
+    logout()
+      .then(() => {
+        setAlert({ type: 'success', message: 'Logged out successfully' });
+        navigate(0);
+      })
+      .catch((err) => {
+        setAlert({ type: 'error', message: err?.response?.data?.error || 'An error occurred' });
+      });
   };
 
   return (
@@ -156,8 +173,8 @@ export default function TopBar() {
                 <MenuItem onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">Profile</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseUserMenu}>
-                  <Link href="/login" color="text.secondary" textAlign="center" underline="none">Logout</Link>
+                <MenuItem onClick={handleLogoutMenu}>
+                  <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
               </Menu>
             </Box>
@@ -166,6 +183,7 @@ export default function TopBar() {
           )}
         </Toolbar>
       </Container>
+      { alert && <AlertMessage type={alert.type} message={alert.message} /> }
     </AppBar>
   );
 }
