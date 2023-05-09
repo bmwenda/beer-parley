@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Comment, type: :model do
   describe 'associations' do
     it { is_expected.to belong_to(:user).class_name('User') }
-    it { is_expected.to belong_to(:review).class_name('Review') }
+    it { is_expected.to belong_to(:commentable) }
   end
 
   describe 'validations' do
