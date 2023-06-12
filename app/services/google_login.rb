@@ -6,10 +6,14 @@ class GoogleLogin
   end
 
   def user_attributes
-    payload = decode_payload(jwt.split('.')[1])
-    return unless !token_expired?(payload['exp']) && valid_issuer?(payload['iss']) && valid_aud?(payload['aud'])
-
+    payload = Google::Auth::IDTokens.verify_oidc(
+      jwt,
+      aud: Rails.application.credentials.dig(:google_sign_in, :client_id),
+    )
     @user_attributes ||= payload.slice('sub', 'email', 'picture', 'given_name', 'family_name')
+  rescue VerificationError => e
+    Rails.logger.error e
+    nil
   end
 
   def user
@@ -31,21 +35,5 @@ class GoogleLogin
   rescue ActiveRecord::RecordInvalid => e
     Rails.logger.error e
     nil
-  end
-
-  def decode_payload(str)
-    JSON.parse(Base64.decode64(str))
-  end
-
-  def token_expired?(exp)
-    Time.zone.now.to_i > exp
-  end
-
-  def valid_issuer?(iss)
-    iss.match(/google.com$/)
-  end
-
-  def valid_aud?(aud)
-    aud == Rails.application.credentials.dig(:google_sign_in, :client_id)
   end
 end
