@@ -12,6 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import AlertMessage from '../shared/AlertMessage';
 import { login } from '../utils/utils';
+import GoogleSignin from '../shared/GoogleSignin';
 
 export default function LogIn() {
   const [alert, setAlert] = useState(null);
@@ -90,6 +91,9 @@ export default function LogIn() {
                 <Link href="/signup" variant="body2">
                   Don&apos;t have an account? Sign Up
                 </Link>
+              </Grid>
+              <Grid item xs={12} sx={{ mt: 2, display: 'flex', justifyContent: 'center' }}>
+                <GoogleSignin />
               </Grid>
             </Grid>
           </Box>

@@ -26,6 +26,13 @@ class SessionsController < ApplicationController
     end
   end
 
+  def google_sign_in
+    user = GoogleLogin.new(params[:credential]).user
+    session[:user_id] = user.id if user
+
+    redirect_to root_path
+  end
+
   def destroy
     session[:user_id] = nil
     respond_to do |format|

@@ -22,4 +22,12 @@ class User < ApplicationRecord
       beer_profile.ibu_score
     ]
   end
+
+  def errors
+    super.tap { |errors| errors.delete(:password, :blank) if social_login? }
+  end
+
+  def social_login?
+    google_id.present?
+  end
 end

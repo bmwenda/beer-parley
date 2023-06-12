@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
@@ -149,8 +150,8 @@ export default function TopBar() {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt={currentUser?.first_name}>
-                    {currentUser?.first_name.charAt(0)}
+                  <Avatar alt={currentUser?.first_name} src={currentUser.avatar_url}>
+                    {!currentUser.avatar_url ? currentUser.first_name.charAt(0) : null}
                   </Avatar>
                 </IconButton>
               </Tooltip>

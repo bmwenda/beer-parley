@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get '/logout', to: 'sessions#destroy'
   get '/current_user', to: 'sessions#show'
   get '/recommendations', to: 'recommendations#index'
+  post '/google_sign_in/callback', to: 'sessions#google_sign_in'
   resources :users, only: %i[show create]
   resources :sessions, only: %i[show create]
   resources :reviews, only: %i[index create]
