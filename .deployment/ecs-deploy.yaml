@@ -25,22 +25,29 @@ Resources:
     Type: AWS::ECS::TaskDefinition
     Properties:
       Family: BeerParleyTask
-      Cpu: 256
-      Memory: 512
+      Cpu: 512
+      Memory: 1024
       NetworkMode: awsvpc
-      ExecutionRoleArn: arn:aws:iam::226396175596:role/ecsTaskExecutionRole
+      ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/ecsTaskExecutionRole
+      Volumes:
+        - Name: beer-parley-db
+          ConfiguredAtLaunch: true
       RequiresCompatibilities:
+        - EC2
         - FARGATE
       RuntimePlatform:
         OperatingSystemFamily: LINUX
       ContainerDefinitions:
         - Name: BeerParleyContainer
-          Image: httpd:2.4
+          Image: public.ecr.aws/n9u7s1q9/beer-parley
           Essential: true
           PortMappings:
             - ContainerPort: 80
               HostPort: 80
               Protocol: tcp
+          MountPoints:
+            - ContainerPath: /data
+              SourceVolume: beer-parley-db
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -49,6 +56,7 @@ Resources:
               awslogs-stream-prefix: ecs
   Service:
     Type: AWS::ECS::Service
+    DependsOn: TaskDefinition
     Properties:
       ServiceName: BeerParleyApp
       Cluster: !Ref Cluster
@@ -62,12 +70,14 @@ Resources:
             - !Ref SubnetID
           SecurityGroups:
             - !GetAtt ContainerSecurityGroup.GroupId
-      # VolumeConfigurations:
-      #   - ManagedEBSVolume:
-      #       SizeInGib: 1
-      #       VolumeType: gp2
-      #     Name: beer-parley-db
+      VolumeConfigurations:
+        - Name: beer-parley-db
+          ManagedEBSVolume:
+            RoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/ecsInfrastructureRole
+            SizeInGib: 1
+            VolumeType: gp2
 
 Outputs:
   WebApp:
+    Description: Beer parley app created
     Value: !Ref Service
