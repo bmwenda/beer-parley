@@ -15,7 +15,9 @@ services:
       REDIS_URL: 'redis://redis:6379/1'
 
   web:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     command: bundle exec rails s -b 0.0.0.0
     volumes:
       - .:/app
@@ -27,7 +29,9 @@ services:
       - db
 
   webpack:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     command: /bin/sh -c "yarn && yarn build"
     volumes:
       - .:/app
@@ -37,7 +41,9 @@ services:
       - web
 
   sidekiq:
-    build: .
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
     command: bundle exec sidekiq
     volumes:
       - .:/app
