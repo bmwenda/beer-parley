@@ -18,8 +18,8 @@ Resources:
       GroupDescription: Security group for beer-parley
       SecurityGroupIngress:
         - IpProtocol: tcp
-          FromPort: 80
-          ToPort: 80
+          FromPort: 3000
+          ToPort: 3000
           CidrIp: 0.0.0.0/0
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
@@ -39,11 +39,11 @@ Resources:
         OperatingSystemFamily: LINUX
       ContainerDefinitions:
         - Name: BeerParleyContainer
-          Image: public.ecr.aws/n9u7s1q9/beer-parley
+          Image: public.ecr.aws/n9u7s1q9/beer-parley:latest
           Essential: true
           PortMappings:
-            - ContainerPort: 80
-              HostPort: 80
+            - ContainerPort: 3000
+              HostPort: 3000 # With host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port
               Protocol: tcp
           MountPoints:
             - ContainerPath: /data
