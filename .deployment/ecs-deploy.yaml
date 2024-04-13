@@ -54,8 +54,8 @@ Resources:
       AllocatedStorage: 20
       DBInstanceClass: db.t3.micro
       Engine: postgres
-      MasterUsername: '{{resolve:secretsmanager:DataBaseSecret:SecretString:username}}'
-      MasterUserPassword: '{{resolve:secretsmanager:DataBaseSecret:SecretString:password}}'
+      MasterUsername: '{{resolve:secretsmanager:DataBaseSecrets:SecretString:username}}'
+      MasterUserPassword: '{{resolve:secretsmanager:DataBaseSecrets:SecretString:password}}'
     DeletionPolicy: Snapshot
   DBSecurityGroup:
     Type: AWS::RDS::DBSecurityGroup
