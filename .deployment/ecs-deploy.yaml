@@ -1,7 +1,18 @@
 AWSTemplateFormatVersion: 2010-09-09
 Parameters:
+  VpcID:
+    Type: String
   SubnetID:
     Type: String
+  DbProtocol:
+    Type: String
+    Default: postgresql
+  DbName:
+    Type: String
+    Default: BeerParleyDB
+  DbPort:
+    Type: String
+    Default: 5432
 Resources:
   Cluster:
     Type: AWS::ECS::Cluster
@@ -11,27 +22,61 @@ Resources:
     Type: AWS::Logs::LogGroup
     Properties:
       LogGroupName: BeerParleyLogGroup
-  ContainerSecurityGroup:
+  WebServerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: ContainerSecurityGroup
-      GroupDescription: Security group for beer-parley
+      GroupName: WebServerSecurityGroup
+      GroupDescription: Security group for beer-parley application
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 3000
           ToPort: 3000
           CidrIp: 0.0.0.0/0
+      VpcId: !Ref VpcID
+  DatabaseEC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: DatabaseSecurityGroup
+      GroupDescription: Security group for beer-parley database
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 5432
+          ToPort: 5432
+          CidrIp: 172.31.80.0/32
+      VpcId: !Ref VpcID
+  DatabaseInstance:
+    Type: AWS::RDS::DBInstance
+    DependsOn: DBSecurityGroup
+    Properties:
+      DBName: !Ref DbName
+      DBSecurityGroups:
+        - Ref: DBSecurityGroup
+      AllocatedStorage: 20
+      DBInstanceClass: db.t3.micro
+      Engine: postgres
+      MasterUsername: '{{resolve:secretsmanager:DataBaseSecret:SecretString:username}}'
+      MasterUserPassword: '{{resolve:secretsmanager:DataBaseSecret:SecretString:password}}'
+    DeletionPolicy: Snapshot
+  DBSecurityGroup:
+    Type: AWS::RDS::DBSecurityGroup
+    DependsOn: DatabaseEC2SecurityGroup
+    Properties:
+      GroupDescription: Security group for BeerParley database
+      DBSecurityGroupIngress:
+          EC2SecurityGroupId: !GetAtt DatabaseEC2SecurityGroup.GroupId
+          EC2SecurityGroupOwnerId: !Ref AWS::AccountId
+      Tags:
+        - Key: Name
+          Value: BeerParleyDatabaseSecurityGroup
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
+    DependsOn: DatabaseInstance
     Properties:
       Family: BeerParleyTask
       Cpu: 512
       Memory: 1024
       NetworkMode: awsvpc
       ExecutionRoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/ecsTaskExecutionRole
-      Volumes:
-        - Name: beer-parley-db
-          ConfiguredAtLaunch: true
       RequiresCompatibilities:
         - EC2
         - FARGATE
@@ -45,9 +90,21 @@ Resources:
             - ContainerPort: 3000
               HostPort: 3000 # With host and awsvpc network modes, exposed container ports are mapped directly to the corresponding host port
               Protocol: tcp
-          MountPoints:
-            - ContainerPath: /data
-              SourceVolume: beer-parley-db
+            - ContainerPort: !Ref DbPort
+              Protocol: tcp
+          Environment:
+            - Name: RAILS_ENV
+              Value: production
+            - Name: RAILS_MASTER_KEY
+              Value: '{{resolve:ssm-secure:RAILS_MASTER_KEY:1}}'
+            - Name: command
+              Value: >-
+                - |
+                    bundle install
+                    yarn install
+                    yarn build
+                    rake db:setup
+                    bin/rails server -d -b 0.0.0.0
           LogConfiguration:
             LogDriver: awslogs
             Options:
@@ -69,13 +126,7 @@ Resources:
           Subnets:
             - !Ref SubnetID
           SecurityGroups:
-            - !GetAtt ContainerSecurityGroup.GroupId
-      VolumeConfigurations:
-        - Name: beer-parley-db
-          ManagedEBSVolume:
-            RoleArn: !Sub arn:aws:iam::${AWS::AccountId}:role/ecsInfrastructureRole
-            SizeInGib: 1
-            VolumeType: gp2
+            - !GetAtt WebServerSecurityGroup.GroupId
 
 Outputs:
   WebApp:
