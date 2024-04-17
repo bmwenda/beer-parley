@@ -37,7 +37,7 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     respond_to do |format|
       format.html {  redirect_to root_path }
-      format.json { render json: { message: 'Logged out' }, status: :no_content }
+      format.json { render status: :no_content }
     end
   end
 

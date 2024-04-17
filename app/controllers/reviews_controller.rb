@@ -14,7 +14,7 @@ class ReviewsController < ApplicationController
     @review = Review.add_review(
       user_id: current_user.id,
       review_attributes: review_params[:review],
-      beer_attributes: review_params[:beer]
+      beer_attributes: review_params[:beer],
     )
 
     if @review
@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
   def review_params
     params.permit(
       review: %i[description user_rating],
-      beer: %i[name tagline first_brewed description image_url abv ibu srm volume]
+      beer: %i[name tagline first_brewed description image_url abv ibu srm volume],
     )
   end
 end
