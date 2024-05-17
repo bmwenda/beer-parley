@@ -17,7 +17,7 @@ class ReviewLikesController < ApplicationController
   def destroy
     @review_like = ReviewLike.find(review_likes_params[:id])
     @review_like.destroy
-    render status: :no_content
+    head :no_content
   rescue ActiveRecord::RecordNotFound => e
     render json: { error: e.message }, status: :not_found
   end

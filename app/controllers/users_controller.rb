@@ -6,6 +6,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
+        UserMailer.with(user: @user).welcome_email.deliver_later
         format.html
         format.json { render :show, status: :created }
       else

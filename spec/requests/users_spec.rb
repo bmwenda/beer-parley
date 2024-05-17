@@ -14,6 +14,12 @@ RSpec.describe 'Users', type: :request do
 
         expect(response).to have_http_status(201)
       end
+
+      it 'enqueues a welcome email' do
+        expect {
+          post users_path, params: valid_user_params, headers: { 'ACCEPT' => 'application/json' }
+      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end
     end
 
     context 'when params are invalid' do
